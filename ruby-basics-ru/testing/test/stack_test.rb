@@ -9,20 +9,19 @@ class StackTest < Minitest::Test
     stack = Stack.new
     stack.push! 'test'
     assert_equal stack.size, 1
-    assert_equal stack.to_a, ['test']
+    assert_equal stack.to_a, %w[test]
   end
 
   def test_pop
-    stack = Stack.new
-    stack.push! 'test1'
-    stack.push! 'test2'
+    stack = Stack.new %w[test1 test2]
 
     top_element = stack.pop!
     assert_equal stack.size, 1
     assert_equal top_element, 'test2'
 
     stack.pop!
-    assert_equal stack.size, 0
+    nil_element = stack.pop!
+    assert nil_element.nil?
   end
 
   def test_clear
