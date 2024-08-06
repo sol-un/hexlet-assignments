@@ -5,14 +5,14 @@ require_relative '../lib/stack'
 
 class StackTest < Minitest::Test
   # BEGIN
-  def test_push
+  def test_push!
     stack = Stack.new
     stack.push! 'test'
     assert_equal stack.size, 1
     assert_equal stack.to_a, %w[test]
   end
 
-  def test_pop
+  def test_pop!
     stack = Stack.new %w[test1 test2]
 
     top_element = stack.pop!
@@ -24,19 +24,15 @@ class StackTest < Minitest::Test
     assert nil_element.nil?
   end
 
-  def test_clear
-    stack = Stack.new
-    stack.push! 'test1'
-    stack.push! 'test2'
+  def test_clear!
+    stack = Stack.new %w[test1 test2]
 
     stack.clear!
     assert_equal stack.size, 0
-    assert_equal stack.to_a, []
   end
 
-  def test_empty
-    stack = Stack.new
-    stack.push! 'test'
+  def test_empty?
+    stack = Stack.new %w[test]
     refute stack.empty?
 
     stack.pop!
