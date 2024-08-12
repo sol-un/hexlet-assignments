@@ -9,6 +9,12 @@ class Url
   extend Forwardable
   def_delegators :@uri, :scheme, :host, :port
 
+  include Comparable
+
+  def ==(other)
+    (@uri.host == other.host) && (@uri.port == other.port) && (@query_params == other.query_params)
+  end
+
   def initialize(url)
     @url = url
     @uri = URI(url)
