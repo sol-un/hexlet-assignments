@@ -11,14 +11,13 @@ class Url
 
   include Comparable
 
-  def ==(other)
-    (@uri.host == other.host) && (@uri.port == other.port) && (@query_params == other.query_params)
+  def <=>(other)
+    [scheme, host, port, query_params] <=> [other.scheme, other.host, other.port, other.query_params]
   end
 
   def initialize(url)
-    @url = url
     @uri = URI(url)
-    @query_params = @uri.query.nil? ? {} : parse_params(@uri)
+    @query_params = @uri.query.nil? ? {} : parse_params
   end
 
   def query_param(key, default = nil)
@@ -27,8 +26,8 @@ class Url
 
   private
 
-  def parse_params(uri)
-    uri.query.split('&').each_with_object({}) do |param, acc|
+  def parse_params
+    @uri.query.split('&').each_with_object({}) do |param, acc|
       key, value = param.split('=')
       acc[key.to_sym] = value
     end
