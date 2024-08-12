@@ -12,7 +12,7 @@ class Url
   def initialize(url)
     @url = url
     @uri = URI(url)
-    @query_params = parse_params @uri
+    @query_params = @uri.query.nil? ? {} : parse_params(@uri)
   end
 
   def query_param(key, default = nil)
