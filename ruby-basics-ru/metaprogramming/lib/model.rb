@@ -21,21 +21,24 @@ module Model
     base.extend(ClassMethods)
   end
 
+  def initialize(attributes = {})
+    attributes.each do |key, value|
+      define_method key do
+        instance_variable_get "@#{key}"
+      end
+
+      define_method "#{key}=" do |new_value|
+        instance_variable_set "@#{key}", coerce(new_value, options[:type])
+      end
+
+      instance_variable_set "@#{key}", value
+    end
+  end
+
   module ClassMethods
-    def attribute(name, options = {})
-      define_method 'initialize' do |attributes = {}|
-        attributes.each do |key, value|
-          instance_variable_set "@#{key}", value
-        end
-      end
-
-      define_method name do
-        instance_variable_get "@#{name}"
-      end
-
-      define_method "#{name}=" do |value|
-        instance_variable_set "@#{name}", coerce(value, options[:type])
-      end
+    def attribute(*attributes)
+      puts('attribute')
+      puts(attributes)
     end
   end
 end
